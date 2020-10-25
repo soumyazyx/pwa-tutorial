@@ -12,7 +12,6 @@
   <link type="text/css" rel="stylesheet" href="{% static 'css/styles.css'%}">
   <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css'%}">
   <script type="text/javascript" src="{% static 'js/materialize.min.js'%}"></script>
-  <script type="text/javascript" src="{% static 'js/sample.js'%}"></script>
   <link rel="manifest" href="{% static 'manifest.json' %}">
   <!-- ios support -->
   <link rel="apple-touch-icon" href="/img/icons/icon-96x96.png">
@@ -21,6 +20,18 @@
 <body class="grey lighten-4">
 
 {% block content %}{% endblock %}
-
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('{% url "sw.js" %}', { scope: '/' }).then(function(reg) {
+      // registration worked
+      console.log('Service worker registered', reg);
+      console.log('Scope is ' + reg.scope);
+    }).catch(function(error) {
+      // registration failed
+      console.log('Service worker not registered')
+      console.log('Registration failed with ' + error);
+    });
+  }
+  </script>
 </body>
 </html>
